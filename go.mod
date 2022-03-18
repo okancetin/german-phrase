@@ -1,4 +1,4 @@
-module github.com/okancetin/german-phrase/main
+module main
 
 go 1.17
 
