@@ -31,7 +31,8 @@ func main() {
 	router.GET("/phrases", getPhrases)
 	router.GET("/phrases/:id", getPhraseByID)
 
-	router.Run("localhost:8080")
+	//router.Run("localhost:8080")
+	router.Run()
 }
 
 // getPhrases responds with the list of all phrases as JSON.
