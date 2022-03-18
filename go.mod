@@ -1,4 +1,4 @@
-module main
+module github.com/okancetin/german-phrase/cmd/api
 
 go 1.17
 
