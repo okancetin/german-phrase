@@ -1,27 +1,20 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"github.com/go-redis/redis"
+	"github.com/okancetin/german-phrase/cmd/api/cmd/entity"
+	"net/http"
+	"os"
+)
 
 import (
 	"github.com/gin-gonic/gin"
 )
 
-type Phrase struct {
-	Id          string      `json:"id"`
-	Content     string      `json:"content"`
-	Title       string      `json:"title"`
-	Link        string      `json:"link"`
-	Translation Translation `json:"translation"`
-}
+var Phrases []*entity.Phrase
 
-type Translation struct {
-	En string `json:"en"`
-	De string `json:"de"`
-}
-
-var Phrases []Phrase
-
-var phrases = []Phrase{
+var phrases = []*entity.Phrase{
 	{Title: "Hello", Content: "Article Content"},
 	{Title: "Hello 2", Content: "Article Content"},
 }
@@ -50,4 +43,16 @@ func getPhraseByID(c *gin.Context) {
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "phrases not found"})
+}
+
+func getPhrasesFromDataSource() {
+	redisAddress := fmt.Sprintf("%s", os.Getenv("REDIS_URL"))
+	client := redis.NewClient(&redis.Options{
+		Addr:     redisAddress,
+		Password: os.Getenv("REDIS_PASSWORD"),
+		DB:       0,
+	})
+
+	pong, err := client.Ping().Result()
+	fmt.Println(pong, err)
 }
