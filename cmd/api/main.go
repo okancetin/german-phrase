@@ -26,8 +26,8 @@ func main() {
 	router.GET("/phrases", getPhrases)
 	router.GET("/phrases/:id", getPhraseByID)
 
-	//router.Run("localhost:8080")
-	router.Run()
+	router.Run("localhost:8080")
+	//router.Run()
 }
 
 // getPhrases responds with the list of all phrases as JSON.
@@ -58,6 +58,12 @@ func getAllPhrasesFromRedis() (phrase string) {
 
 	//ctx := context.Background()
 	phrase = client.Get("1").Val()
+	fmt.Println(os.Getenv("REDIS_HOST"))
+	fmt.Println(os.Getenv("REDIS_PASSWORD"))
+	fmt.Println(client)
+	fmt.Println(phrase)
+	val := client.Ping().Val()
+	fmt.Println(val)
 	return
 }
 
